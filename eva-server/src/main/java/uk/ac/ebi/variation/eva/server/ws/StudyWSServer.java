@@ -86,7 +86,7 @@ public class StudyWSServer extends EvaWSServer {
                 id.getString(DBObjectToVariantSourceConverter.STUDYID_FIELD), queryOptions);
         finalResult.setDbTime(finalResult.getDbTime() + idQueryResult.getDbTime());
 
-        return createOkResponse(finalResult);
+        return createOkResponse(translateFileIdsInVariantSource(finalResult));
     }
 
     @GET

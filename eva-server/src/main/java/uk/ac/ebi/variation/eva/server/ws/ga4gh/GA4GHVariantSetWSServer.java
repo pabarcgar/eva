@@ -22,6 +22,7 @@ package uk.ac.ebi.variation.eva.server.ws.ga4gh;
 import io.swagger.annotations.Api;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -86,15 +87,18 @@ public class GA4GHVariantSetWSServer extends EvaWSServer {
             queryOptions.put("skip", idxCurrentPage * limit);
         }
         queryOptions.put("limit", limit);
-        
-        List<String> studiesList = Arrays.asList(studies.split(","));
+
+        List<String> studiesList = getStudiesFromParam(studies);
+
         QueryResult<VariantSource> qr;
         if (studiesList.isEmpty()) {
             qr = dbAdaptor.getAllSources(queryOptions);
         } else {
             qr = dbAdaptor.getAllSourcesByStudyIds(studiesList, queryOptions);
         }
-        
+
+        qr = translateFileIdsInVariantSource(qr);
+
         // Convert VariantSource objects to GAVariantSet
         List<GAVariantSet> gaVariantSets = GAVariantSetFactory.create(qr.getResult());
         // Calculate the next page token
@@ -104,7 +108,19 @@ public class GA4GHVariantSetWSServer extends EvaWSServer {
         // Create the custom response for the GA4GH API
         return createJsonResponse(new GASearchVariantSetsResponse(gaVariantSets, nextPageToken));
     }
-    
+
+    private List<String> getStudiesFromParam(String studies) {
+        List<String> studiesList = new ArrayList<>();
+        for (String study : studies.split(",")) {
+            studiesList.add(study);
+            String translatedStudy = dict.get(study);
+            if (translatedStudy != null) {
+                studiesList.add(translatedStudy);
+            }
+        }
+        return studiesList;
+    }
+
     @POST
     @Path("/search")
     @Consumes(MediaType.APPLICATION_JSON)

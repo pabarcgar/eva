@@ -101,11 +101,14 @@ public class EvaWSServer {
     protected static ObjectWriter jsonObjectWriter;
     protected static Map<String, String> dict;
     private static Map<String, String> studyDict;
-    private static Map<String, String> erzIdsDict;
+    protected static Map<String, String> erzIdsDict;
+    protected static Map<String, String> erzNamesToNumericIdDict;
 
 
     protected static Logger logger;
-    
+
+    private boolean translateStudyIds;
+    private boolean translateFileIds;
 
     static {
         logger = LoggerFactory.getLogger(EvaWSServer.class);
@@ -366,6 +369,202 @@ public class EvaWSServer {
         erzIdsDict.put("5574", "ERZ094195");
         erzIdsDict.put("11527", "ERZ015367");
         erzIdsDict.put("34926", "ERZX00062");
+
+        erzNamesToNumericIdDict = new HashMap<>();
+        erzNamesToNumericIdDict.put("ERZ017134", "52");
+        erzNamesToNumericIdDict.put("ERZX00038", "8603");
+        erzNamesToNumericIdDict.put("ERZX00061", "34886");
+        erzNamesToNumericIdDict.put("ERZ019953", "208");
+        erzNamesToNumericIdDict.put("ERZ094141", "11768");
+        erzNamesToNumericIdDict.put("ERZ094140", "11795");
+        erzNamesToNumericIdDict.put("ERZ094203", "5552");
+        erzNamesToNumericIdDict.put("ERZ094147", "11727");
+        erzNamesToNumericIdDict.put("ERZ094137", "11724");
+        erzNamesToNumericIdDict.put("ERZ094199", "5558");
+        erzNamesToNumericIdDict.put("ERZ015357", "11523");
+        erzNamesToNumericIdDict.put("ERZ094211", "5554");
+        erzNamesToNumericIdDict.put("ERZ094202", "5560");
+        erzNamesToNumericIdDict.put("ERZ094190", "5577");
+        erzNamesToNumericIdDict.put("ERZ015346", "11507");
+        erzNamesToNumericIdDict.put("ERZ094176", "5683");
+        erzNamesToNumericIdDict.put("ERZ015350", "11535");
+        erzNamesToNumericIdDict.put("ERZX00059", "34888");
+        erzNamesToNumericIdDict.put("ERZ094177", "5700");
+        erzNamesToNumericIdDict.put("ERZ094208", "5545");
+        erzNamesToNumericIdDict.put("ERZ094193", "5572");
+        erzNamesToNumericIdDict.put("ERZ094167", "5691");
+        erzNamesToNumericIdDict.put("ERZ094168", "5676");
+        erzNamesToNumericIdDict.put("ERZX00067", "34858");
+        erzNamesToNumericIdDict.put("ERZ019961", "218");
+        erzNamesToNumericIdDict.put("ERZ094179", "5708");
+        erzNamesToNumericIdDict.put("ERZ038109", "5399");
+        erzNamesToNumericIdDict.put("ERZX00040", "8591");
+        erzNamesToNumericIdDict.put("ERZ094181", "5688");
+        erzNamesToNumericIdDict.put("ERZ015355", "11517");
+        erzNamesToNumericIdDict.put("ERZ017133", "56");
+        erzNamesToNumericIdDict.put("ERZX00060", "34866");
+        erzNamesToNumericIdDict.put("ERZ094189", "5722");
+        erzNamesToNumericIdDict.put("ERZ017138", "72");
+        erzNamesToNumericIdDict.put("ERZX00051", "8585");
+        erzNamesToNumericIdDict.put("ERZ019952", "230");
+        erzNamesToNumericIdDict.put("ERZ094131", "11745");
+        erzNamesToNumericIdDict.put("ERZ094144", "11713");
+        erzNamesToNumericIdDict.put("ERZX00042", "8611");
+        erzNamesToNumericIdDict.put("ERZ049522", "5437");
+        erzNamesToNumericIdDict.put("ERZ094135", "11705");
+        erzNamesToNumericIdDict.put("ERZ094138", "11756");
+        erzNamesToNumericIdDict.put("ERZ094180", "5695");
+        erzNamesToNumericIdDict.put("ERZ019949", "175");
+        erzNamesToNumericIdDict.put("ERZX00069", "34856");
+        erzNamesToNumericIdDict.put("ERZ019947", "216");
+        erzNamesToNumericIdDict.put("ERZ094146", "11758");
+        erzNamesToNumericIdDict.put("ERZ094188", "5673");
+        erzNamesToNumericIdDict.put("ERZ094136", "11742");
+        erzNamesToNumericIdDict.put("ERZ094175", "5706");
+        erzNamesToNumericIdDict.put("ERZX00058", "34923");
+        erzNamesToNumericIdDict.put("ERZ094192", "5549");
+        erzNamesToNumericIdDict.put("ERZX00026", "5418");
+        erzNamesToNumericIdDict.put("ERZ015359", "11466");
+        erzNamesToNumericIdDict.put("ERZ094171", "5716");
+        erzNamesToNumericIdDict.put("ERZ015345", "11469");
+        erzNamesToNumericIdDict.put("ERZ017131", "83");
+        erzNamesToNumericIdDict.put("ERZ019944", "203");
+        erzNamesToNumericIdDict.put("ERZ019942", "228");
+        erzNamesToNumericIdDict.put("ERZ017132", "70");
+        erzNamesToNumericIdDict.put("ERZ015362", "11485");
+        erzNamesToNumericIdDict.put("ERZ017128", "6550");
+        erzNamesToNumericIdDict.put("ERZ094152", "11810");
+        erzNamesToNumericIdDict.put("ERZ017144", "122");
+        erzNamesToNumericIdDict.put("ERZ015363", "11463");
+        erzNamesToNumericIdDict.put("ERZ094198", "5553");
+        erzNamesToNumericIdDict.put("ERZ017137", "24");
+        erzNamesToNumericIdDict.put("ERZ094194", "5581");
+        erzNamesToNumericIdDict.put("ERZX00049", "5380");
+        erzNamesToNumericIdDict.put("ERZ094201", "5590");
+        erzNamesToNumericIdDict.put("ERZ038104", "5477");
+        erzNamesToNumericIdDict.put("ERZ094145", "11723");
+        erzNamesToNumericIdDict.put("ERZ094169", "5692");
+        erzNamesToNumericIdDict.put("ERZX00046", "8593");
+        erzNamesToNumericIdDict.put("ERZ019955", "189");
+        erzNamesToNumericIdDict.put("ERZ094186", "5701");
+        erzNamesToNumericIdDict.put("ERZ097166", "5473");
+        erzNamesToNumericIdDict.put("ERZ015365", "11525");
+        erzNamesToNumericIdDict.put("ERZX00006", "185");
+        erzNamesToNumericIdDict.put("ERZX00039", "8597");
+        erzNamesToNumericIdDict.put("ERZ015352", "11489");
+        erzNamesToNumericIdDict.put("ERZ019948", "292");
+        erzNamesToNumericIdDict.put("ERZ094173", "5684");
+        erzNamesToNumericIdDict.put("ERZ094210", "5562");
+        erzNamesToNumericIdDict.put("ERZX00052", "8614");
+        erzNamesToNumericIdDict.put("ERZ094139", "11731");
+        erzNamesToNumericIdDict.put("ERZ017123", "35");
+        erzNamesToNumericIdDict.put("ERZ015353", "11491");
+        erzNamesToNumericIdDict.put("ERZ015358", "11477");
+        erzNamesToNumericIdDict.put("ERZ094185", "5709");
+        erzNamesToNumericIdDict.put("ERZ015356", "11529");
+        erzNamesToNumericIdDict.put("ERZX00070", "34870");
+        erzNamesToNumericIdDict.put("ERZ094151", "11701");
+        erzNamesToNumericIdDict.put("ERZX00033", "11452");
+        erzNamesToNumericIdDict.put("ERZ017136", "76");
+        erzNamesToNumericIdDict.put("ERZX00034", "8599");
+        erzNamesToNumericIdDict.put("ERZX00066", "34879");
+        erzNamesToNumericIdDict.put("ERZX00068", "34896");
+        erzNamesToNumericIdDict.put("ERZX00044", "8589");
+        erzNamesToNumericIdDict.put("ERZX00031", "8587");
+        erzNamesToNumericIdDict.put("ERZ019962", "294");
+        erzNamesToNumericIdDict.put("ERZ094174", "5680");
+        erzNamesToNumericIdDict.put("ERZ019957", "274");
+        erzNamesToNumericIdDict.put("ERZX00043", "8583");
+        erzNamesToNumericIdDict.put("ERZ017140", "110");
+        erzNamesToNumericIdDict.put("ERZ094191", "5598");
+        erzNamesToNumericIdDict.put("ERZ017141", "58");
+        erzNamesToNumericIdDict.put("ERZ094149", "11703");
+        erzNamesToNumericIdDict.put("ERZX00071", "34872");
+        erzNamesToNumericIdDict.put("ERZX00063", "34864");
+        erzNamesToNumericIdDict.put("ERZ038105", "5494");
+        erzNamesToNumericIdDict.put("ERZX00054", "34878");
+        erzNamesToNumericIdDict.put("ERZ094182", "5725");
+        erzNamesToNumericIdDict.put("ERZ094133", "11736");
+        erzNamesToNumericIdDict.put("ERZ094178", "5721");
+        erzNamesToNumericIdDict.put("ERZ094134", "11729");
+        erzNamesToNumericIdDict.put("ERZ015710", "11460");
+        erzNamesToNumericIdDict.put("ERZX00055", "34862");
+        erzNamesToNumericIdDict.put("ERZ017126", "60");
+        erzNamesToNumericIdDict.put("ERZ094172", "5743");
+        erzNamesToNumericIdDict.put("ERZX00045", "8605");
+        erzNamesToNumericIdDict.put("ERZX00076", "34876");
+        erzNamesToNumericIdDict.put("ERZ094166", "5719");
+        erzNamesToNumericIdDict.put("ERZ017125", "46");
+        erzNamesToNumericIdDict.put("ERZ094197", "5544");
+        erzNamesToNumericIdDict.put("ERZX00064", "34852");
+        erzNamesToNumericIdDict.put("ERZ017142", "54");
+        erzNamesToNumericIdDict.put("ERZ094196", "5579");
+        erzNamesToNumericIdDict.put("ERZX00035", "5382");
+        erzNamesToNumericIdDict.put("ERZX00037", "8601");
+        erzNamesToNumericIdDict.put("ERZ017121", "48");
+        erzNamesToNumericIdDict.put("ERZX00074", "34884");
+        erzNamesToNumericIdDict.put("ERZ094148", "11707");
+        erzNamesToNumericIdDict.put("ERZ015354", "11482");
+        erzNamesToNumericIdDict.put("ERZ094132", "11712");
+        erzNamesToNumericIdDict.put("ERZ015349", "11501");
+        erzNamesToNumericIdDict.put("ERZ094213", "5584");
+        erzNamesToNumericIdDict.put("ERZ015368", "11511");
+        erzNamesToNumericIdDict.put("ERZ017127", "81");
+        erzNamesToNumericIdDict.put("ERZ019943", "187");
+        erzNamesToNumericIdDict.put("ERZX00075", "34894");
+        erzNamesToNumericIdDict.put("ERZX00036", "8609");
+        erzNamesToNumericIdDict.put("ERZ094129", "11753");
+        erzNamesToNumericIdDict.put("ERZ094143", "11760");
+        erzNamesToNumericIdDict.put("ERZ019959", "282");
+        erzNamesToNumericIdDict.put("ERZ094142", "11721");
+        erzNamesToNumericIdDict.put("ERZ094183", "5702");
+        erzNamesToNumericIdDict.put("ERZ094209", "5568");
+        erzNamesToNumericIdDict.put("ERZ094187", "5697");
+        erzNamesToNumericIdDict.put("ERZ094170", "5687");
+        erzNamesToNumericIdDict.put("ERZ017143", "41");
+        erzNamesToNumericIdDict.put("ERZ094212", "5588");
+        erzNamesToNumericIdDict.put("ERZX00048", "11455");
+        erzNamesToNumericIdDict.put("ERZ019960", "224");
+        erzNamesToNumericIdDict.put("ERZ094200", "5586");
+        erzNamesToNumericIdDict.put("ERZ017135", "30");
+        erzNamesToNumericIdDict.put("ERZX00032", "8607");
+        erzNamesToNumericIdDict.put("ERZX00072", "34882");
+        erzNamesToNumericIdDict.put("ERZ094130", "11734");
+        erzNamesToNumericIdDict.put("ERZ015347", "11519");
+        erzNamesToNumericIdDict.put("ERZ094150", "11717");
+        erzNamesToNumericIdDict.put("ERZX00041", "9861");
+        erzNamesToNumericIdDict.put("ERZ019946", "222");
+        erzNamesToNumericIdDict.put("ERZ094206", "5566");
+        erzNamesToNumericIdDict.put("ERZ019956", "210");
+        erzNamesToNumericIdDict.put("ERZ019950", "226");
+        erzNamesToNumericIdDict.put("ERZX00057", "34854");
+        erzNamesToNumericIdDict.put("ERZ017129", "37");
+        erzNamesToNumericIdDict.put("ERZ017124", "85");
+        erzNamesToNumericIdDict.put("ERZ017139", "6521");
+        erzNamesToNumericIdDict.put("ERZX00056", "34860");
+        erzNamesToNumericIdDict.put("ERZ019954", "278");
+        erzNamesToNumericIdDict.put("ERZ094184", "5712");
+        erzNamesToNumericIdDict.put("ERZ019940", "193");
+        erzNamesToNumericIdDict.put("ERZ015351", "11521");
+        erzNamesToNumericIdDict.put("ERZX00073", "34850");
+        erzNamesToNumericIdDict.put("ERZ017130", "27");
+        erzNamesToNumericIdDict.put("ERZ094207", "5564");
+        erzNamesToNumericIdDict.put("ERZ015369", "11474");
+        erzNamesToNumericIdDict.put("ERZ017122", "50");
+        erzNamesToNumericIdDict.put("ERZ019958", "232");
+        erzNamesToNumericIdDict.put("ERZ108740", "34705");
+        erzNamesToNumericIdDict.put("ERZX00065", "34890");
+        erzNamesToNumericIdDict.put("ERZ015361", "11471");
+        erzNamesToNumericIdDict.put("ERZX00047", "8595");
+        erzNamesToNumericIdDict.put("ERZX00053", "34892");
+        erzNamesToNumericIdDict.put("ERZ094205", "5537");
+        erzNamesToNumericIdDict.put("ERZ015348", "11495");
+        erzNamesToNumericIdDict.put("ERZ015366", "11531");
+        erzNamesToNumericIdDict.put("ERZ019941", "212");
+        erzNamesToNumericIdDict.put("ERZ094204", "5542");
+        erzNamesToNumericIdDict.put("ERZ094195", "5574");
+        erzNamesToNumericIdDict.put("ERZ015367", "11527");
+        erzNamesToNumericIdDict.put("ERZX00062", "34926");
     }
 
     @Deprecated
@@ -382,6 +581,10 @@ public class EvaWSServer {
         this.queryOptions = new QueryOptions();
 
         logger.info("EvaWSServer: in 'constructor'");
+
+        // TODO: temporary solution until the data is fixed
+        translateFileIds = true;
+        translateStudyIds = true;
     }
 
     protected void checkParams() throws VersionException, SpeciesException {
@@ -468,8 +671,6 @@ public class EvaWSServer {
     }
 
     protected QueryResult<Variant> translateFileIds(QueryResult<Variant> variantQueryResult) {
-        boolean translateFileIds = true,
-                translateStudyIds = true;
         if (translateFileIds || translateStudyIds) {
             for (Variant variant : variantQueryResult.getResult()) {
                 for (VariantSourceEntry variantSource : variant.getSourceEntries().values()) {
@@ -489,6 +690,18 @@ public class EvaWSServer {
                 variantSource.setStudyId(translatedStudyId);
             }
         }
+    }
+
+    protected QueryResult translateFileIdsInVariantSource(QueryResult<VariantSource> variantSourceQueryResult) {
+        if (translateFileIds) {
+            for (VariantSource variantSource : variantSourceQueryResult.getResult()) {
+                String translatedFileId = erzIdsDict.get(variantSource.getFileId());
+                if (translatedFileId != null) {
+                    variantSource.setFileId(translatedFileId);
+                }
+            }
+        }
+        return variantSourceQueryResult;
     }
 
     private void translateFileId(boolean translateFileIds, VariantSourceEntry variantSource) {

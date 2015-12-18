@@ -35,21 +35,21 @@ public class GA4GHVariantWSServerTest extends EvaWSServerTest {
         }
     }
 
-//    @Test
-//    public void testGetVariantsByRegionFilteringByFile() throws Exception {
-//        Response response = given()
-//                .param("species", "hsapiens")
-//                .param("referenceName", "18")
-//                .param("start", "3000024")
-//                .param("end", "3000024")
-//                .param("variantSetIds", "ERZ038105")
-//                .get(new URI("/v1/ga4gh/variants/search"));
-//        List queryResponse = JsonPath.from(response.asString()).getList("variants");
-//        assertTrue(queryResponse.size() == 2);
-//
-//        for(Object variant : queryResponse) {
-//            String fileId = (String)((Map)variant).get("variantSetId");
-//            assertTrue("variant file id bad formatted: " + fileId, fileId.startsWith("ERZ"));
-//        }
-//    }
+    @Test
+    public void testGetVariantsByRegionFilteringByFile() throws Exception {
+        Response response = given()
+                .param("species", "hsapiens")
+                .param("referenceName", "18")
+                .param("start", "3000024")
+                .param("end", "3000024")
+                .param("variantSetIds", "ERZ038105")
+                .get(new URI("/v1/ga4gh/variants/search"));
+        List queryResponse = JsonPath.from(response.asString()).getList("variants");
+        assertTrue(queryResponse.size() >=1);
+
+        for(Object variant : queryResponse) {
+            String fileId = (String)((Map)variant).get("variantSetId");
+            assertTrue("variant file id bad formatted: " + fileId, fileId.startsWith("ERZ"));
+        }
+    }
 }

@@ -22,6 +22,7 @@ package uk.ac.ebi.variation.eva.server.ws.ga4gh;
 import io.swagger.annotations.Api;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -82,7 +83,9 @@ public class GA4GHVariantCallSetWSServer extends EvaWSServer {
         }
         queryOptions.put("limit", limit);
         
-        List<String> filesList = Arrays.asList(files.split(","));
+        //List<String> filesList = Arrays.asList(files.split(","));
+        List<String> filesList = getFilesFromParam(files);
+
         QueryResult<List<String>> qr;
         if (filesList.isEmpty()) {
             // TODO This should accept a global search for all call sets (samples) in the DB
@@ -92,6 +95,7 @@ public class GA4GHVariantCallSetWSServer extends EvaWSServer {
         }
         
         // Convert sample names objects to GACallSet
+        filesList = translateFileIdsToNames(filesList);
         List<GACallSet> gaCallSets = GACallSetFactory.create(filesList, qr.getResult());
         // Calculate the next page token
         int idxLastElement = idxCurrentPage * limit + limit;
@@ -100,7 +104,31 @@ public class GA4GHVariantCallSetWSServer extends EvaWSServer {
         // Create the custom response for the GA4GH API
         return createJsonResponse(new GASearchCallSetsResponse(gaCallSets, nextPageToken));
     }
-    
+
+    private List<String> translateFileIdsToNames(List<String> filesList) {
+        List<String> translatedFiles = new ArrayList<>();
+        for (String file : filesList) {
+            String translatedFile = erzIdsDict.get(file);
+            if (translatedFile != null) {
+                translatedFiles.add(translatedFile);
+            } else {
+                translatedFiles.add(file);
+            }
+        }
+        return translatedFiles;
+    }
+
+    private List<String> getFilesFromParam(String filesParam) {
+        List<String> filesList = new ArrayList<>();
+        for (String file : filesParam.split(",")) {
+            filesList.add(file);
+            String translatedFile = erzNamesToNumericIdDict.get(file);
+            if (translatedFile != null) {
+                filesList.add(translatedFile);
+            }
+        }
+        return filesList;
+    }
     
     @POST
     @Path("/search")

@@ -22,6 +22,7 @@ package uk.ac.ebi.variation.eva.server.ws.ga4gh;
 import io.swagger.annotations.Api;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -84,7 +85,7 @@ public class GA4GHVariantWSServer extends EvaWSServer {
         VariantDBAdaptor variantMongoDbAdaptor = DBAdaptorConnector.getVariantDBAdaptor("hsapiens_grch37");
         
         if (files != null && !files.isEmpty()) {
-            queryOptions.put("files", Arrays.asList(files.split(",")));
+            queryOptions.put("files", getFilesFromParam(files));
         }
         
         int idxCurrentPage = 0;
@@ -118,6 +119,19 @@ public class GA4GHVariantWSServer extends EvaWSServer {
                     + "If you want to browse a larger number of positions, please provide the parameter 'histogram=true'");
         }
         
+    }
+
+    private List<String> getFilesFromParam(String files) {
+        Arrays.asList(files.split(","));
+        List<String> fileList = new ArrayList<>();
+        for (String file : files.split(",")) {
+            fileList.add(file);
+            String translatedStudy = erzNamesToNumericIdDict.get(file);
+            if (translatedStudy != null) {
+                fileList.add(translatedStudy);
+            }
+        }
+        return fileList;
     }
     
     @POST
