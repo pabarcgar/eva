@@ -71,7 +71,7 @@ public class RegionWSServer extends EvaWSServer {
             throws IllegalOpenCGACredentialsException, IOException {
         initializeQueryOptions();
 
-        VariantDBAdaptor variantMongoDbAdaptor = DBAdaptorConnector.getVariantDBAdaptor(species);
+        VariantDBAdaptor variantMongoDbAdaptor = dbAdaptorConnector.getVariantDBAdaptor(species);
 
 
         if (studies != null && !studies.isEmpty()) {

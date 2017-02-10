@@ -52,7 +52,7 @@ public class FilesWSServer extends EvaWSServer {
             throws IllegalOpenCGACredentialsException, IOException {
         initializeQueryOptions();
 
-        VariantSourceDBAdaptor variantSourceMongoDbAdaptor = DBAdaptorConnector.getVariantSourceDBAdaptor(species);
+        VariantSourceDBAdaptor variantSourceMongoDbAdaptor = dbAdaptorConnector.getVariantSourceDBAdaptor(species);
         return setQueryResponse(variantSourceMongoDbAdaptor.getAllSources(queryOptions));
     }
 

@@ -58,8 +58,8 @@ public class StudyWSServer extends EvaWSServer {
             throws UnknownHostException, IllegalOpenCGACredentialsException, IOException {
         initializeQueryOptions();
 
-        StudyDBAdaptor studyMongoDbAdaptor = DBAdaptorConnector.getStudyDBAdaptor(species);
-        VariantSourceDBAdaptor variantSourceDbAdaptor = DBAdaptorConnector.getVariantSourceDBAdaptor(species);
+        StudyDBAdaptor studyMongoDbAdaptor = dbAdaptorConnector.getStudyDBAdaptor(species);
+        VariantSourceDBAdaptor variantSourceDbAdaptor = dbAdaptorConnector.getVariantSourceDBAdaptor(species);
 
         QueryResult idQueryResult = studyMongoDbAdaptor.findStudyNameOrStudyId(study, queryOptions);
         if (idQueryResult.getNumResults() == 0) {
@@ -85,7 +85,7 @@ public class StudyWSServer extends EvaWSServer {
             throws UnknownHostException, IllegalOpenCGACredentialsException, IOException {
         initializeQueryOptions();
 
-        StudyDBAdaptor studyMongoDbAdaptor = DBAdaptorConnector.getStudyDBAdaptor(species);
+        StudyDBAdaptor studyMongoDbAdaptor = dbAdaptorConnector.getStudyDBAdaptor(species);
 
         QueryResult idQueryResult = studyMongoDbAdaptor.findStudyNameOrStudyId(study, queryOptions);
         if (idQueryResult.getNumResults() == 0) {

@@ -110,7 +110,7 @@ public class ArchiveWSServer extends EvaWSServer {
     @RequestMapping(value = "/studies/list", method = RequestMethod.GET)
     public QueryResponse getBrowsableStudies(@RequestParam("species") String species)
             throws IllegalOpenCGACredentialsException, IOException {
-        StudyDBAdaptor studyMongoDbAdaptor = DBAdaptorConnector.getStudyDBAdaptor(species);
+        StudyDBAdaptor studyMongoDbAdaptor = dbAdaptorConnector.getStudyDBAdaptor(species);
         return setQueryResponse(studyMongoDbAdaptor.listStudies());
     }
 

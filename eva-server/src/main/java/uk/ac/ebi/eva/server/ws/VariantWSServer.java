@@ -56,7 +56,7 @@ public class VariantWSServer extends EvaWSServer {
             throws IllegalOpenCGACredentialsException, UnknownHostException, IOException {
         initializeQueryOptions();
 
-        VariantDBAdaptor variantMongoDbAdaptor = DBAdaptorConnector.getVariantDBAdaptor(species);
+        VariantDBAdaptor variantMongoDbAdaptor = dbAdaptorConnector.getVariantDBAdaptor(species);
 
         if (studies != null && !studies.isEmpty()) {
             queryOptions.put("studies", studies);
@@ -90,7 +90,7 @@ public class VariantWSServer extends EvaWSServer {
             throws IllegalOpenCGACredentialsException, UnknownHostException, IOException {
         initializeQueryOptions();
 
-        VariantDBAdaptor variantMongoDbAdaptor = DBAdaptorConnector.getVariantDBAdaptor(species);
+        VariantDBAdaptor variantMongoDbAdaptor = dbAdaptorConnector.getVariantDBAdaptor(species);
 
         if (studies != null && !studies.isEmpty()) {
             queryOptions.put("studies", studies);
